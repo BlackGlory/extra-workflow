@@ -46,8 +46,3 @@ export class UnknownProcedure extends CustomError {
     super(`${value}`)
   }
 }
-export class AppendFailed extends CustomError {
-  constructor(index: number) {
-    super(`index ${index} is already exist`)
-  }
-}
