@@ -11,6 +11,7 @@ yarn add greatsword
 ## Usage
 ```ts
 import { Greatsword } from 'greatsword'
+import { call } from 'greatsword/lib/es2018/helpers'
 
 const greatsword = new Greatsword(eventStore)
 
@@ -53,6 +54,6 @@ class Greatsword<T> {
 
 ### Helpers
 #### call
-```
+```ts
 function call<T>(fn: () => Awaitable<T>): Call<T>
 ```
