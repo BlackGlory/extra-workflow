@@ -2,12 +2,13 @@ import { Awaitable } from 'justypes'
 
 export interface IEventStore<T> {
   /**
-   * 需要显式指定追加事件的索引, 当索引值不是下一个事件所应具有的索引值时, 该方法应该抛出错误.
+   * The index of the appended event needs to be explicitly specified.
+   * The method should throw an error when the index is not the index of the next event.
    */
   append(id: string, index: number, event: T): Awaitable<void>
 
   /**
-   * 当索引位置的事件不存在时, 该方法应该抛出错误.
+   * This method should throw an error when the event at the index does not exist.
    */
   get(id: string, index: number): Awaitable<T>
 
