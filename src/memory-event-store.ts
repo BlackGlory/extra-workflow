@@ -1,5 +1,5 @@
 import { IEventStore } from './types'
-import { assert } from '@blackglory/errors'
+import { assert } from '@blackglory/prelude'
 
 export class MemoryEventStore<T> implements IEventStore<T> {
   private map = new Map<string, T[]>()

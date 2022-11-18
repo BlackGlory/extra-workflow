@@ -1,4 +1,4 @@
-import { Awaitable } from 'justypes'
+import { Awaitable } from '@blackglory/prelude'
 
 export type Procedure = Call<unknown>
 
