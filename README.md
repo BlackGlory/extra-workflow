@@ -1,59 +1,65 @@
-# greatsword
-The orchestrator library based on generators and event sourcing.
-
+# extra-workflow
 ## Install
 ```sh
-npm install --save greatsword
+npm install --save extra-workflow
 # or
-yarn add greatsword
+yarn add extra-workflow
 ```
 
 ## Usage
 ```ts
-import { Greatsword } from 'greatsword'
-import { call } from 'greatsword/lib/es2018/helpers'
+const fetchJSON = new Workflow(function* (url: string) {
+  const json = yield* call(
+    signal => fetch(url, { signal }).then(res => res.json())
+  )
 
-const greatsword = new Greatsword(eventStore)
-
-const result = await greatsword.execute('fetch', function* () {
-  return yield call(() => fetch('http://example.com').then(res => res.text()))
+  return json
 })
+
+const store = new MemoryDataStore()
+
+const result1 = await workflow.call({ store }, 'http://example.com')
+const result2 = await workflow.call({ store }, 'http://example.com')
+
+assert(result1 === result2)
 ```
 
 ## API
 ```ts
-interface IEventStore<T> {
-  /**
-   * The index of the appended event needs to be explicitly specified.
-   * The method should throw an error when the index is not the index of the next event.
-   */
-  append(id: string, index: number, event: T): Awaitable<void>
-
-  /**
-   * This method should throw an error when the event at the index does not exist.
-   */
-  get(id: string, index: number): Awaitable<T>
-
-  size(id: string): Awaitable<number>
+interface IRecord<DataType> {
+  type: 'result' | 'error'
+  value: DataType
 }
 
-type Procedure = Call<unknown>
-```
-
-### Greatsword
-```ts
-class Greatsword<T> {
-  constructor(store: IEventStore<T>)
-
-  execute<Result extends T>(
-    id: string
-  , workflow: () => Generator<Procedure, Result, T>
-  ): Promise<Result>
+interface IDataStore<DataType> {
+  get(index: number): Awaitable<IRecord<DataType> | Falsy>
+  set(index: number, record: IRecord<DataType>): Awaitable<void>
 }
 ```
 
-### Helpers
-#### call
+### Workflow
 ```ts
-function call<T>(fn: () => Awaitable<T>): Call<T>
+class Workflow<DataType, Args extends DataType[], Return> {
+  constructor(fn: (...args: Args) => Generator<Call<DataType>, Return, DataType>)
+
+  call(
+    context: {
+      store: IDataStore<DataType>
+      signal?: AbortSignal
+    }
+  , ...args: Args
+  ): Promise<Return>
+}
+```
+
+### call
+```ts
+function call<DataType, Return extends DataType = DataType>(
+  fn: (signal?: AbortSignal) => Awaitable<Result>
+): Call<DataType, Result>
+```
+
+### MemoryDataStore
+```ts
+class MemoryDataStore<DataType> implements IDataStore<DataType>
 ```

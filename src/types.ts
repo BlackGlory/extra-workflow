@@ -1,16 +1,11 @@
-import { Awaitable } from '@blackglory/prelude'
+import { Awaitable, Falsy } from '@blackglory/prelude'
 
-export interface IEventStore<T> {
-  /**
-   * The index of the appended event needs to be explicitly specified.
-   * The method should throw an error when the index is not the index of the next event.
-   */
-  append(id: string, index: number, event: T): Awaitable<void>
+export interface IRecord<DataType> {
+  type: 'result' | 'error'
+  value: DataType
+}
 
-  /**
-   * This method should throw an error when the event at the index does not exist.
-   */
-  get(id: string, index: number): Awaitable<T>
-
-  size(id: string): Awaitable<number>
+export interface IDataStore<DataType> {
+  get(index: number): Awaitable<IRecord<DataType> | Falsy>
+  set(index: number, record: IRecord<DataType>): Awaitable<void>
 }
