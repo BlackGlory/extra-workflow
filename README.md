@@ -26,14 +26,14 @@ assert(result1 === result2)
 
 ## API
 ```ts
-interface IRecord<DataType> {
+interface IRecord<T> {
   type: 'result' | 'error'
-  value: DataType
+  value: T
 }
 
-interface IStore<DataType> {
-  get(index: number): Awaitable<IRecord<DataType> | Falsy>
-  set(index: number, record: IRecord<DataType>): Awaitable<void>
+interface IStore<T> {
+  get(index: number): Awaitable<IRecord<T> | Falsy>
+  set(index: number, record: IRecord<T>): Awaitable<void>
 }
 ```
 

@@ -1,11 +1,11 @@
 import { Awaitable, Falsy } from '@blackglory/prelude'
 
-export interface IRecord<DataType> {
+export interface IRecord<T> {
   type: 'result' | 'error'
-  value: DataType
+  value: T
 }
 
-export interface IStore<DataType> {
-  get(index: number): Awaitable<IRecord<DataType> | Falsy>
-  set(index: number, record: IRecord<DataType>): Awaitable<void>
+export interface IStore<T> {
+  get(index: number): Awaitable<IRecord<T> | Falsy>
+  set(index: number, record: IRecord<T>): Awaitable<void>
 }
