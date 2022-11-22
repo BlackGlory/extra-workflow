@@ -8,6 +8,9 @@ yarn add extra-workflow
 
 ## Usage
 ```ts
+import { Workflow, call } from 'extra-workflow'
+import { MemoryStore } from '@extra-workflow/memory-store'
+
 const fetchJSON = new Workflow(function* (url: string) {
   const json = yield* call(
     signal => fetch(url, { signal }).then(res => res.json())
