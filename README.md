@@ -40,7 +40,11 @@ interface IDataStore<DataType> {
 ### Workflow
 ```ts
 class Workflow<DataType, Args extends DataType[], Return> {
-  constructor(fn: (...args: Args) => Generator<Call<DataType>, Return, DataType>)
+  constructor(
+    fn: (...args: Args) =>
+    | Generator<Call<DataType, DataType>, Return, DataType>
+    | AsyncGenerator<Call<DataType, DataType>, Return, DataType>
+  )
 
   call(
     context: {
