@@ -5,7 +5,7 @@ export interface IRecord<DataType> {
   value: DataType
 }
 
-export interface IDataStore<DataType> {
+export interface IStore<DataType> {
   get(index: number): Awaitable<IRecord<DataType> | Falsy>
   set(index: number, record: IRecord<DataType>): Awaitable<void>
 }

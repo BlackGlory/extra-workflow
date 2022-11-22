@@ -1,6 +1,6 @@
-import { IRecord, IDataStore } from './types'
+import { IRecord, IStore } from './types'
 
-export class MemoryDataStore<DataType = unknown> implements IDataStore<DataType> {
+export class MemoryStore<DataType = unknown> implements IStore<DataType> {
   private store: Array<IRecord<DataType>> = []
 
   set(index: number, record: IRecord<DataType>): void {

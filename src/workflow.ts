@@ -1,5 +1,5 @@
 import { Call } from './call'
-import { IRecord, IDataStore } from './types'
+import { IRecord, IStore } from './types'
 import { Result, toResultAsync } from 'return-style'
 import { isntFalsy } from '@blackglory/prelude'
 
@@ -12,7 +12,7 @@ export class Workflow<DataType, Args extends DataType[], Return> {
 
   async call(
     { store, signal }: {
-      store: IDataStore<DataType>
+      store: IStore<DataType>
       signal?: AbortSignal
     }
   , ...args: Args
@@ -57,7 +57,7 @@ export class Workflow<DataType, Args extends DataType[], Return> {
   }
 
   private async getRecord(
-    store: IDataStore<DataType>
+    store: IStore<DataType>
   , index: number
   , call: Call<DataType, DataType>
   , signal?: AbortSignal

@@ -1,6 +1,6 @@
 import { Workflow } from '@src/workflow'
 import { call } from '@src/call'
-import { MemoryDataStore } from '@src/memory-data-store'
+import { MemoryStore } from '@src/memory-store'
 import { getErrorPromise } from 'return-style'
 import { AbortController } from 'extra-abort'
 import { delay } from 'extra-promise'
@@ -8,7 +8,7 @@ import { delay } from 'extra-promise'
 describe('Workflow', () => {
   describe('call', () => {
     test('returns a value', async () => {
-      const store = new MemoryDataStore()
+      const store = new MemoryStore()
       const mockedWorkflow = jest.fn(function* (text: string) {
         const result = yield* call(() => text)
         return result
@@ -29,7 +29,7 @@ describe('Workflow', () => {
 
     test('throws a error', async () => {
       const customError = new Error('custom error')
-      const store = new MemoryDataStore()
+      const store = new MemoryStore()
       const mockedWorkflow = jest.fn(function* (text: string) {
         throw customError
       })
@@ -45,7 +45,7 @@ describe('Workflow', () => {
     describe('Call throws a error', () => {
       test('not caught', async () => {
         const customError = new Error('custom error')
-        const store = new MemoryDataStore()
+        const store = new MemoryStore()
         const mockedWorkflow = jest.fn(function* (text: string) {
           const result = yield* call(() => {
             throw customError
@@ -68,7 +68,7 @@ describe('Workflow', () => {
 
       test('caught', async () => {
         const customError = new Error('custom error')
-        const store = new MemoryDataStore()
+        const store = new MemoryStore()
         const mockedWorkflow = jest.fn(function* (text: string) {
           try {
             const result = yield* call(() => {
@@ -95,7 +95,7 @@ describe('Workflow', () => {
     })
 
     test('memorize intermediate values', async () => {
-      const store = new MemoryDataStore()
+      const store = new MemoryStore()
       const passThrough = jest.fn((text: string) => text)
       const mockedWorkflow = jest.fn(function* (text: string) {
         const result = yield* call(() => passThrough(text))
@@ -120,7 +120,7 @@ describe('Workflow', () => {
 
     describe('signal', () => {
       test('not aborted', async () => {
-        const store = new MemoryDataStore()
+        const store = new MemoryStore()
         const mockedWorkflow = jest.fn(function* (text: string) {
           const result = yield* call(() => text)
           return result
@@ -149,7 +149,7 @@ describe('Workflow', () => {
       describe('aborted', () => {
         test('earlier than calling', async () => {
           const customError = new Error('custom error')
-          const store = new MemoryDataStore()
+          const store = new MemoryStore()
           const mockedWorkflow = jest.fn(function* (text: string) {
             const result = yield* call(() => text)
             return result
@@ -173,7 +173,7 @@ describe('Workflow', () => {
 
         test('later than calling', async () => {
           const customError = new Error('custom error')
-          const store = new MemoryDataStore()
+          const store = new MemoryStore()
           const mockedWorkflow = jest.fn(function* (text: string) {
             const result = yield* call(() => delay(1000))
             return result

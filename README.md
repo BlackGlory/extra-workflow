@@ -16,7 +16,7 @@ const fetchJSON = new Workflow(function* (url: string) {
   return json
 })
 
-const store = new MemoryDataStore()
+const store = new MemoryStore()
 
 const result1 = await workflow.call({ store }, 'http://example.com')
 const result2 = await workflow.call({ store }, 'http://example.com')
@@ -31,7 +31,7 @@ interface IRecord<DataType> {
   value: DataType
 }
 
-interface IDataStore<DataType> {
+interface IStore<DataType> {
   get(index: number): Awaitable<IRecord<DataType> | Falsy>
   set(index: number, record: IRecord<DataType>): Awaitable<void>
 }
@@ -48,7 +48,7 @@ class Workflow<DataType, Args extends DataType[], Return> {
 
   call(
     context: {
-      store: IDataStore<DataType>
+      store: IStore<DataType>
       signal?: AbortSignal
     }
   , ...args: Args
@@ -63,7 +63,7 @@ function call<DataType, Return extends DataType = DataType>(
 ): Call<DataType, Result>
 ```
 
-### MemoryDataStore
+### MemoryStore
 ```ts
-class MemoryDataStore<DataType = unknown> implements IDataStore<DataType>
+class MemoryStore<DataType = unknown> implements IStore<DataType>
 ```

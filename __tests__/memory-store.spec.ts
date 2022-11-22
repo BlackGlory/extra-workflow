@@ -1,10 +1,10 @@
-import { MemoryDataStore } from '@src/memory-data-store'
+import { MemoryStore } from '@src/memory-store'
 import { IRecord } from '@src/types'
 
-describe('MemoryDataStore', () => {
+describe('MemoryStore', () => {
   describe('set', () => {
     test('record does not exist', () => {
-      const store = new MemoryDataStore()
+      const store = new MemoryStore()
       const record: IRecord<string> = {
         type: 'result'
       , value: 'value'
@@ -18,7 +18,7 @@ describe('MemoryDataStore', () => {
     })
 
     test('record exists', () => {
-      const store = new MemoryDataStore()
+      const store = new MemoryStore()
       const oldRecord: IRecord<string> = {
         type: 'result'
       , value: 'old-value'
@@ -39,7 +39,7 @@ describe('MemoryDataStore', () => {
 
   describe('get', () => {
     test('record exists', () => {
-      const store = new MemoryDataStore()
+      const store = new MemoryStore()
       const record: IRecord<string> = {
         type: 'result'
       , value: 'value'
@@ -52,7 +52,7 @@ describe('MemoryDataStore', () => {
     })
 
     test('event does not exist', () => {
-      const store = new MemoryDataStore()
+      const store = new MemoryStore()
 
       const result = store.get(0)
 
@@ -61,7 +61,7 @@ describe('MemoryDataStore', () => {
   })
 
   test('clear', () => {
-    const store = new MemoryDataStore()
+    const store = new MemoryStore()
     const record: IRecord<string> = {
       type: 'result'
     , value: 'value'
@@ -74,7 +74,7 @@ describe('MemoryDataStore', () => {
   })
 
   test('dump', () => {
-    const store = new MemoryDataStore()
+    const store = new MemoryStore()
     const record1: IRecord<string> = {
       type: 'result'
     , value: 'value-1'
