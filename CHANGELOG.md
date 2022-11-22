@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.3.0](https://github.com/BlackGlory/extra-workflow/compare/v0.2.0...v0.3.0) (2022-11-22)
+
+
+### ⚠ BREAKING CHANGES
+
+* Removed `MemoryStore`
+* - Renamed `IDataStore` to `IStore`
+- Renamed `MemoryDataStore` to `MemoryStore`
+
+* remove `MemoryStore` ([51adfbf](https://github.com/BlackGlory/extra-workflow/commit/51adfbf942bbe58b6876db0b2f066f8352fb3d5a))
+* rename `IDataStore` to `IStore`, `MemoryDataStore` to `MemoryStore` ([e018b18](https://github.com/BlackGlory/extra-workflow/commit/e018b18bd7b6eee8b8e806f3e616367151457225))
+
 ## [0.2.0](https://github.com/BlackGlory/extra-workflow/compare/v0.1.2...v0.2.0) (2022-11-22)
 
 
