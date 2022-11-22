@@ -62,8 +62,3 @@ function call<DataType, Return extends DataType = DataType>(
   fn: (signal?: AbortSignal) => Awaitable<Result>
 ): Call<DataType, Result>
 ```
-
-### MemoryStore
-```ts
-class MemoryStore<DataType = unknown> implements IStore<DataType>
-```

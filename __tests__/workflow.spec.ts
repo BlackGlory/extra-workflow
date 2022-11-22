@@ -1,9 +1,9 @@
 import { Workflow } from '@src/workflow'
 import { call } from '@src/call'
-import { MemoryStore } from '@src/memory-store'
 import { getErrorPromise } from 'return-style'
 import { AbortController } from 'extra-abort'
 import { delay } from 'extra-promise'
+import { IRecord, IStore } from '@src/types'
 
 describe('Workflow', () => {
   describe('call', () => {
@@ -198,3 +198,19 @@ describe('Workflow', () => {
     })
   })
 })
+
+class MemoryStore<T> implements IStore<T> {
+  private store: Array<IRecord<T>> = []
+
+  set(index: number, record: IRecord<T>): void {
+    this.store[index] = record
+  }
+
+  get(index: number): IRecord<T> | undefined {
+    return this.store[index]
+  }
+
+  dump(): Array<IRecord<T>> {
+    return [...this.store]
+  }
+}
