@@ -65,5 +65,5 @@ function call<DataType, Return extends DataType = DataType>(
 
 ### MemoryDataStore
 ```ts
-class MemoryDataStore<DataType> implements IDataStore<DataType>
+class MemoryDataStore<DataType = unknown> implements IDataStore<DataType>
 ```
