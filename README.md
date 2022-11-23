@@ -42,7 +42,7 @@ interface IStore<T> {
 
 ### Workflow
 ```ts
-class Workflow<DataType, Args extends DataType[], Return> {
+class Workflow<DataType, Args extends DataType[] = DataType[], Return = DataType> {
   constructor(
     fn: (...args: Args) =>
     | Generator<Call<DataType, DataType>, Return, DataType>

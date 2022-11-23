@@ -3,7 +3,7 @@ import { IRecord, IStore } from './types'
 import { Result, toResultAsync } from 'return-style'
 import { isntFalsy } from '@blackglory/prelude'
 
-export class Workflow<DataType, Args extends DataType[], Return> {
+export class Workflow<DataType, Args extends DataType[] = DataType[], Return = DataType> {
   constructor(
     private fn: (...args: Args) => 
     | Generator<Call<DataType, DataType>, Return, DataType>
