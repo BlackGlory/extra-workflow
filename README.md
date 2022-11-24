@@ -6,6 +6,11 @@ npm install --save extra-workflow
 yarn add extra-workflow
 ```
 
+## When would you need it?
+- You're dealing with massive datasets,
+  you don't want intermediate data to be lost when the program crashes.
+- You want the program to be interrupted and resumed later.
+
 ## Usage
 ```ts
 import { Workflow, call } from 'extra-workflow'
