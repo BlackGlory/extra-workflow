@@ -1,17 +1,15 @@
 import { Workflow } from '@src/workflow'
-import { call } from '@src/call'
 import { getErrorPromise } from 'return-style'
 import { AbortController } from 'extra-abort'
 import { delay } from 'extra-promise'
-import { IRecord, IStore } from '@src/types'
+import { IRecord, IStore, IHelper } from '@src/types'
 
 describe('Workflow', () => {
   describe('call', () => {
     test('returns a value', async () => {
       const store = new MemoryStore()
-      const mockedWorkflow = jest.fn(function* (text: string) {
-        const result = yield* call(() => text)
-        return result
+      const mockedWorkflow = jest.fn(async ({ call }: IHelper<any>, text: string) => {
+        return await call(() => text)
       })
       const workflow = new Workflow(mockedWorkflow)
 
@@ -30,7 +28,7 @@ describe('Workflow', () => {
     test('throws a error', async () => {
       const customError = new Error('custom error')
       const store = new MemoryStore()
-      const mockedWorkflow = jest.fn(function* (text: string) {
+      const mockedWorkflow = jest.fn(async (_: IHelper<any>, text: string) => {
         throw customError
       })
       const workflow = new Workflow(mockedWorkflow)
@@ -46,11 +44,10 @@ describe('Workflow', () => {
       test('not caught', async () => {
         const customError = new Error('custom error')
         const store = new MemoryStore()
-        const mockedWorkflow = jest.fn(function* (text: string) {
-          const result = yield* call(() => {
+        const mockedWorkflow = jest.fn(async ({ call }: IHelper<any>, text: string) => {
+          return await call(() => {
             throw customError
           })
-          return result
         })
         const workflow = new Workflow(mockedWorkflow)
 
@@ -69,9 +66,9 @@ describe('Workflow', () => {
       test('caught', async () => {
         const customError = new Error('custom error')
         const store = new MemoryStore()
-        const mockedWorkflow = jest.fn(function* (text: string) {
+        const mockedWorkflow = jest.fn(async ({ call }: IHelper<any>, text: string) => {
           try {
-            const result = yield* call(() => {
+            const result = await call(() => {
               throw customError
             })
             return result
@@ -97,9 +94,8 @@ describe('Workflow', () => {
     test('memorize intermediate values', async () => {
       const store = new MemoryStore()
       const passThrough = jest.fn((text: string) => text)
-      const mockedWorkflow = jest.fn(function* (text: string) {
-        const result = yield* call(() => passThrough(text))
-        return result
+      const mockedWorkflow = jest.fn(async ({ call }: IHelper<any>, text: string) => {
+        return await call(() => passThrough(text))
       })
       const workflow = new Workflow(mockedWorkflow)
 
@@ -121,9 +117,8 @@ describe('Workflow', () => {
     describe('signal', () => {
       test('not aborted', async () => {
         const store = new MemoryStore()
-        const mockedWorkflow = jest.fn(function* (text: string) {
-          const result = yield* call(() => text)
-          return result
+        const mockedWorkflow = jest.fn(async ({ call }: IHelper<any>, text: string) => {
+          return await call(() => text)
         })
         const workflow = new Workflow(mockedWorkflow)
         const controller = new AbortController()
@@ -150,9 +145,8 @@ describe('Workflow', () => {
         test('earlier than calling', async () => {
           const customError = new Error('custom error')
           const store = new MemoryStore()
-          const mockedWorkflow = jest.fn(function* (text: string) {
-            const result = yield* call(() => text)
-            return result
+          const mockedWorkflow = jest.fn(async ({ call }: IHelper<any>, text: string) => {
+            return await call(() => text)
           })
           const workflow = new Workflow(mockedWorkflow)
           const controller = new AbortController()
@@ -174,9 +168,8 @@ describe('Workflow', () => {
         test('later than calling', async () => {
           const customError = new Error('custom error')
           const store = new MemoryStore()
-          const mockedWorkflow = jest.fn(function* (text: string) {
-            const result = yield* call(() => delay(1000))
-            return result
+          const mockedWorkflow = jest.fn(async ({ call }: IHelper<any>, text: string) => {
+            return await call(() => delay(1000))
           })
           const workflow = new Workflow(mockedWorkflow)
           const controller = new AbortController()

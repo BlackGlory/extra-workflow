@@ -13,13 +13,11 @@ yarn add extra-workflow
 
 ## Usage
 ```ts
-import { Workflow, call } from 'extra-workflow'
+import { Workflow } from 'extra-workflow'
 import { MemoryStore } from '@extra-workflow/memory-store'
 
-const fetchJSON = new Workflow(function* (url: string) {
-  const json = yield* call(
-    signal => fetch(url, { signal }).then(res => res.json())
-  )
+const fetchJSON = new Workflow(async ({ call }, url: string) => {
+  const json = await call(signal => fetch(url, { signal }).then(res => res.json()))
 
   return json
 })
@@ -34,6 +32,12 @@ assert(result1 === result2)
 
 ## API
 ```ts
+interface IHelper<DataType> {
+  call<Result extends DataType>(
+    fn: (signal?: AbortSignal) => Awaitable<Result>
+  ): Promise<Result>
+}
+
 interface IRecord<T> {
   type: 'result' | 'error'
   value: T
@@ -43,30 +47,20 @@ interface IStore<T> {
   get(index: number): Awaitable<IRecord<T> | Falsy>
   set(index: number, record: IRecord<T>): Awaitable<void>
 }
+
 ```
 
 ### Workflow
 ```ts
-class Workflow<DataType, Args extends unknown[] = unknown[], Return = DataType> {
-  constructor(
-    fn: (...args: Args) =>
-    | Generator<Call<DataType, DataType>, Return, DataType>
-    | AsyncGenerator<Call<DataType, DataType>, Return, DataType>
-  )
+class Workflow<DataType, Args extends unknown[], Result> {
+  constructor(fn: (helper: IHelper<DataType>, ...args: Args) => Awaitable<Result>)
 
-  call(
-    context: {
+  async call(
+    options: {
       store: IStore<DataType>
       signal?: AbortSignal
     }
   , ...args: Args
-  ): Promise<Return>
+  ): Promise<Result>
 }
-```
-
-### call
-```ts
-function call<DataType, Return extends DataType = DataType>(
-  fn: (signal?: AbortSignal) => Awaitable<Result>
-): Call<DataType, Result>
 ```

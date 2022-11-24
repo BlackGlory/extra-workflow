@@ -53,6 +53,7 @@
   },
   "dependencies": {
     "@blackglory/prelude": "^0.1.8",
+    "extra-proxy": "^0.3.0",
     "return-style": "^1.0.0"
   }
 }
