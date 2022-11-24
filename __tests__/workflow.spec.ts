@@ -91,25 +91,33 @@ describe('Workflow', () => {
       })
     })
 
-    test('memorize intermediate values', async () => {
+    test('memoize intermediate values', async () => {
       const store = new MemoryStore()
       const passThrough = jest.fn((text: string) => text)
-      const mockedWorkflow = jest.fn(async ({ call }: IHelper<any>, text: string) => {
-        return await call(() => passThrough(text))
-      })
+      const mockedWorkflow = jest.fn(
+        async ({ call }: IHelper<any>, leftText: string, rightText: string) => {
+          const left = await call(() => passThrough(leftText))
+          const right = await call(() => passThrough(rightText))
+          return left + right
+        }
+      )
       const workflow = new Workflow(mockedWorkflow)
 
-      const result1 = await workflow.call({ store }, 'foo')
-      const result2 = await workflow.call({ store }, 'bar')
+      const result1 = await workflow.call({ store }, 'foo', 'bar')
+      const result2 = await workflow.call({ store }, 'bar', 'foo')
 
-      expect(result1).toBe('foo')
-      expect(result2).toBe('foo')
+      expect(result1).toBe('foobar')
+      expect(result2).toBe('foobar')
       expect(mockedWorkflow).toBeCalledTimes(2)
-      expect(passThrough).toBeCalledTimes(1)
+      expect(passThrough).toBeCalledTimes(2)
       expect(store.dump()).toStrictEqual([
         {
           type: 'result'
         , value: 'foo'
+        }
+      , {
+          type: 'result'
+        , value: 'bar'
         }
       ])
     })

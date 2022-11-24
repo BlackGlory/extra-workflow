@@ -47,7 +47,6 @@ interface IStore<T> {
   get(index: number): Awaitable<IRecord<T> | Falsy>
   set(index: number, record: IRecord<T>): Awaitable<void>
 }
-
 ```
 
 ### Workflow
