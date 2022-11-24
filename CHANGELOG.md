@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.4.0](https://github.com/BlackGlory/extra-workflow/compare/v0.3.2...v0.4.0) (2022-11-24)
+
+
+### ⚠ BREAKING CHANGES
+
+* The project was rewritten.
+
+### Features
+
+* rewrite ([1f94153](https://github.com/BlackGlory/extra-workflow/commit/1f941534ffe99df44f8f803ff22de9dbe7a6d4dc))
+
 ### [0.3.2](https://github.com/BlackGlory/extra-workflow/compare/v0.3.1...v0.3.2) (2022-11-24)
 
 ### [0.3.1](https://github.com/BlackGlory/extra-workflow/compare/v0.3.0...v0.3.1) (2022-11-23)
