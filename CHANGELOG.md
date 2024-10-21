@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.5.0](https://github.com/BlackGlory/extra-workflow/compare/v0.4.1...v0.5.0) (2024-10-21)
+
+
+### ⚠ BREAKING CHANGES
+
+* Node.js v16 => v18.17.0
+* CommonJS => ESM
+
+* update engines field ([ff9f836](https://github.com/BlackGlory/extra-workflow/commit/ff9f836c0e822fceaf7032359c9b29b3e5ef6133))
+* upgrade dependencies ([5ce374b](https://github.com/BlackGlory/extra-workflow/commit/5ce374bb1c54aca10e11c2c30bec0d05ab5fd18d))
+
 ### [0.4.1](https://github.com/BlackGlory/extra-workflow/compare/v0.4.0...v0.4.1) (2023-06-11)
 
 
