@@ -16,7 +16,7 @@ yarn add extra-workflow
 import { Workflow } from 'extra-workflow'
 import { MemoryStore } from '@extra-workflow/memory-store'
 
-const fetchJSON = new Workflow(async ({ call }, url: string) => {
+const workflow = new Workflow(async ({ call }, url: string) => {
   const json = await call(signal => fetch(url, { signal }).then(res => res.json()))
 
   return json
