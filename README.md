@@ -7,9 +7,9 @@ yarn add extra-workflow
 ```
 
 ## When would you need it?
-- You're dealing with massive datasets,
-  you don't want intermediate data to be lost when the program crashes.
-- You want the program to be interrupted and resumed later.
+- You want your program to be interruptible at any time and be able to resume later.
+- You're performing a long-running task,
+  you don't want to lose intermediate data when the program crashes.
 
 ## Usage
 ```ts
