@@ -1,4 +1,4 @@
-import { IHelper, IRecord, IStore } from './types'
+import { IHelper, IRecord, IStore } from './types.js'
 import { Result as ReturnResult, toResultAsync } from 'return-style'
 import { Awaitable, isntFalsy } from '@blackglory/prelude'
 

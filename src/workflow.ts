@@ -1,7 +1,7 @@
-import { IStore, IHelper } from './types'
+import { IStore, IHelper } from './types.js'
 import { Awaitable } from '@blackglory/prelude'
 import { bind } from 'extra-proxy'
-import { Helper } from './helper'
+import { Helper } from './helper.js'
 
 export class Workflow<DataType, Args extends unknown[], Result> {
   constructor(
@@ -17,8 +17,8 @@ export class Workflow<DataType, Args extends unknown[], Result> {
   ): Promise<Result> {
     signal?.throwIfAborted()
 
-    const context = new Helper(store, signal)
-    const result = await this.fn.call(this, bind(context), ...args)
+    const helper = new Helper(store, signal)
+    const result = await this.fn.call(this, bind(helper), ...args)
     signal?.throwIfAborted()
 
     return result

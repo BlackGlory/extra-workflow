@@ -1,14 +1,15 @@
-import { Workflow } from '@src/workflow'
+import { describe, test, expect, vi } from 'vitest'
+import { Workflow } from '@src/workflow.js'
 import { getErrorPromise } from 'return-style'
 import { AbortController } from 'extra-abort'
 import { delay } from 'extra-promise'
-import { IRecord, IStore, IHelper } from '@src/types'
+import { IRecord, IStore, IHelper } from '@src/types.js'
 
 describe('Workflow', () => {
   describe('call', () => {
     test('returns a value', async () => {
       const store = new MemoryStore()
-      const mockedWorkflow = jest.fn(async ({ call }: IHelper<any>, text: string) => {
+      const mockedWorkflow = vi.fn(async ({ call }: IHelper<any>, text: string) => {
         return await call(() => text)
       })
       const workflow = new Workflow(mockedWorkflow)
@@ -28,7 +29,7 @@ describe('Workflow', () => {
     test('throws a error', async () => {
       const customError = new Error('custom error')
       const store = new MemoryStore()
-      const mockedWorkflow = jest.fn(async (_: IHelper<any>, text: string) => {
+      const mockedWorkflow = vi.fn(async (_: IHelper<any>, text: string) => {
         throw customError
       })
       const workflow = new Workflow(mockedWorkflow)
@@ -44,7 +45,7 @@ describe('Workflow', () => {
       test('not caught', async () => {
         const customError = new Error('custom error')
         const store = new MemoryStore()
-        const mockedWorkflow = jest.fn(async ({ call }: IHelper<any>, text: string) => {
+        const mockedWorkflow = vi.fn(async ({ call }: IHelper<any>, text: string) => {
           return await call(() => {
             throw customError
           })
@@ -66,7 +67,7 @@ describe('Workflow', () => {
       test('caught', async () => {
         const customError = new Error('custom error')
         const store = new MemoryStore()
-        const mockedWorkflow = jest.fn(async ({ call }: IHelper<any>, text: string) => {
+        const mockedWorkflow = vi.fn(async ({ call }: IHelper<any>, text: string) => {
           try {
             const result = await call(() => {
               throw customError
@@ -93,8 +94,8 @@ describe('Workflow', () => {
 
     test('memoize intermediate values', async () => {
       const store = new MemoryStore()
-      const passThrough = jest.fn((text: string) => text)
-      const mockedWorkflow = jest.fn(
+      const passThrough = vi.fn((text: string) => text)
+      const mockedWorkflow = vi.fn(
         async ({ call }: IHelper<any>, leftText: string, rightText: string) => {
           const left = await call(() => passThrough(leftText))
           const right = await call(() => passThrough(rightText))
@@ -125,7 +126,7 @@ describe('Workflow', () => {
     describe('signal', () => {
       test('not aborted', async () => {
         const store = new MemoryStore()
-        const mockedWorkflow = jest.fn(async ({ call }: IHelper<any>, text: string) => {
+        const mockedWorkflow = vi.fn(async ({ call }: IHelper<any>, text: string) => {
           return await call(() => text)
         })
         const workflow = new Workflow(mockedWorkflow)
@@ -153,7 +154,7 @@ describe('Workflow', () => {
         test('earlier than calling', async () => {
           const customError = new Error('custom error')
           const store = new MemoryStore()
-          const mockedWorkflow = jest.fn(async ({ call }: IHelper<any>, text: string) => {
+          const mockedWorkflow = vi.fn(async ({ call }: IHelper<any>, text: string) => {
             return await call(() => text)
           })
           const workflow = new Workflow(mockedWorkflow)
@@ -176,7 +177,7 @@ describe('Workflow', () => {
         test('later than calling', async () => {
           const customError = new Error('custom error')
           const store = new MemoryStore()
-          const mockedWorkflow = jest.fn(async ({ call }: IHelper<any>, text: string) => {
+          const mockedWorkflow = vi.fn(async ({ call }: IHelper<any>, text: string) => {
             return await call(() => delay(1000))
           })
           const workflow = new Workflow(mockedWorkflow)
